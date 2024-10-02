@@ -1,0 +1,14 @@
+apiVersion: v2
+name: kafka-and-redis
+description: Kafka and Redis chart
+type: application
+version: 0.1.0
+dependencies:
+  - name: kafka
+    condition: kafka.enabled
+    repository: https://charts.bitnami.com/bitnami
+    version: 27.1.0
+  - name: redis
+    condition: redis.enabled
+    repository: https://charts.bitnami.com/bitnami
+    version: 20.1.5

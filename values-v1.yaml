@@ -1,0 +1,51 @@
+kafka:
+  enabled: true
+  controller:
+    replicaCount: 0
+    automountServiceAccountToken: true
+  broker:
+    replicaCount: 2
+    persistence:
+      size: 10Gi
+    automountServiceAccountToken: true
+  kraft:
+    enabled: false
+  zookeeper:
+    enabled: true
+    persistence:
+      size: 10Gi
+  listeners:
+    client:
+      protocol: PLAINTEXT
+    controller:
+      protocol: PLAINTEXT
+    interbroker:
+      protocol: PLAINTEXT
+    external:
+      protocol: PLAINTEXT
+    configuration:
+  externalAccess:
+    enabled: true
+    broker:
+      service:
+        type: NodePort
+        nodePorts:
+          - 30066
+          - 30067
+        externalIPs:
+        - 192.168.49.201
+        - 192.168.49.202
+
+
+
+redis:
+  enabled: true
+  master:
+    persistence:
+      enabled: true
+      size: 8Gi
+  replica:
+    replicaCount: 3  
+    persistence:
+      enabled: true
+      size: 8Gi
