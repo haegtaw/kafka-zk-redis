@@ -49,15 +49,32 @@ redis:
     persistence:
       enabled: true
       size: 8Gi
-  environment:
-    - name: ZOO_MY_ID
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.name  
-    - name: ZOO_POD_NAME  
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.name
-    - name: ZOO_SERVERS
-      value: "zookeeper-0.zookeeper:2888:3888;2181,zookeeper-1.zookeeper:2888:3888;2181,zookeeper-2.zookeeper:2888:3888;2181"
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - redis-replica  
+      ##      topologyKey: "kubernetes.io/hostname"  # TODO
+
+  sentinel:
+    enabled: true  
+    masterSet: "mymaster"  
+    persistence:
+      enabled: true
+      size: 8Gi
+    sentinelCount: 3
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - redis-sentinel  
+            ## topologyKey: "kubernetes.io/hostname"  #TODO
 
