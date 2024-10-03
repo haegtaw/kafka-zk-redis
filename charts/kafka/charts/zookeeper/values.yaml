@@ -218,7 +218,11 @@ existingConfigmap: ""
 ##   - name: FOO
 ##     value: "bar"
 ##
+
 extraEnvVars: []
+
+##TODOOOOOO
+
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra env vars for ZooKeeper nodes
 ##
 extraEnvVarsCM: ""
@@ -236,7 +240,7 @@ args: []
 
 ## @param replicaCount Number of ZooKeeper nodes
 ##
-replicaCount: 1
+replicaCount: 3
 ## @param containerPorts.client ZooKeeper client container port
 ## @param containerPorts.tls ZooKeeper TLS container port
 ## @param containerPorts.follower ZooKeeper follower container port
@@ -411,17 +415,17 @@ nodeAffinityPreset:
 ## Note: podAffinityPreset, podAntiAffinityPreset, and nodeAffinityPreset will be ignored when it's set
 ##
 
-affinity:
-  podAntiAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchExpressions:
-            - key: app
-              operator: In
-              values:
-                - zookeeper 
-        topologyKey: "kubernetes.io/hostname"  # TODO
-
+affinity: {}
+  ## nodeAffinity:
+  ##   requiredDuringSchedulingIgnoredDuringExecution:
+  ##     nodeSelectorTerms:
+  ##       - matchExpressions:
+  ##           - key: kubernetes.io/hostname  ##TODOOOOO
+  ##             operator: In
+  ##             values:
+  ##               - node1
+  ##               - node2
+  ##               - node3
 
   
 ## @param nodeSelector Node labels for pod assignment
