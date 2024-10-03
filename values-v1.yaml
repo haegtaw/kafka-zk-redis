@@ -49,3 +49,15 @@ redis:
     persistence:
       enabled: true
       size: 8Gi
+  environment:
+    - name: ZOO_MY_ID
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name  
+    - name: ZOO_POD_NAME  
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
+    - name: ZOO_SERVERS
+      value: "zookeeper-0.zookeeper:2888:3888;2181,zookeeper-1.zookeeper:2888:3888;2181,zookeeper-2.zookeeper:2888:3888;2181"
+
