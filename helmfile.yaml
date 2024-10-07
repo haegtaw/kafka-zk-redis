@@ -1,7 +1,7 @@
 ---
 repositories:
   - name: kafka-zk-redis
-    url: https://github.com/haegtaw/kfk-rd.git
+    url: https://github.com/haegtaw/kfk-rd
 
 releases:
   - name: kafka-zk-redis
