@@ -1,0 +1,12 @@
+---
+repositories:
+  - name: kafka-zk-redis
+    url: https://gitlab.xplanet.tech/devops/charts
+
+releases:
+  - name: kafka-zk-redis
+    namespace: default
+    chart: ./kafka-zk-redis
+    version: "0.1.0"
+    values:
+      - ./kafka-zk-redis/values-v1.yaml

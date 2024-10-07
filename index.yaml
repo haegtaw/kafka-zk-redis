@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+entries:
+  kafka-zk-redis:
+    - apiVersion: v2
+      appVersion: 1.16.0
+      created: "2024-10-07T04:21:05.513278846-04:00"
+      description: A Helm chart for Kubernetes
+      digest: 42bbf08dfee233b7101712b447421345ea69cc3435dce07fffb86dbfedad10df
+      name: kafka-zk-redis
+      type: application
+      urls:
+        - https://gitlab.xplanet.tech/devops/charts/kafka-zk-redis-0.1.0.tgz
+      version: 0.1.0
+generated: "2024-10-07T04:21:05.50630817-04:00"

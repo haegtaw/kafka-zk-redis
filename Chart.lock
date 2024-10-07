@@ -1,7 +1,0 @@
-dependencies:
-- name: kafka
-  repository: https://charts.bitnami.com/bitnami
-  version: 27.1.0
-- name: redis
-  repository: https://charts.bitnami.com/bitnami
-  version: 20.1.5
