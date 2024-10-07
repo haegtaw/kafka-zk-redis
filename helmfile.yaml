@@ -6,7 +6,7 @@ repositories:
 releases:
   - name: kafka-zk-redis
     namespace: default
-    chart: ./kafka-zk-redis
+    chart: kfk-rd/kafka-zk-redis
     version: "0.1.0"
     values:
       - ./values-v1.yaml
