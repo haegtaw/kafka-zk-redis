@@ -1,0 +1,113 @@
+---
+kafka:
+  enabled: true
+  controller:
+    replicaCount: 0
+    automountServiceAccountToken: true
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
+  broker:
+    replicaCount: 3
+    persistence:
+      size: 10Gi
+    automountServiceAccountToken: true
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
+  kraft:
+    enabled: false
+  zookeeper:
+    enabled: true
+    persistence:
+      size: 10Gi
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
+  listeners:
+    client:
+      protocol: PLAINTEXT
+    controller:
+      protocol: PLAINTEXT
+    interbroker:
+      protocol: PLAINTEXT
+    external:
+      protocol: PLAINTEXT
+    configuration:
+  externalAccess:
+    enabled: true
+    broker:
+      service:
+        type: NodePort
+        nodePorts:
+          - 30066
+          - 30067
+          - 30068
+        externalIPs:
+          - 192.168.49.201
+          - 192.168.49.202
+          - 192.168.49.203
+
+redis:
+  enabled: true
+  password: "changeit"
+  master:
+    persistence:
+      enabled: true
+      size: 8Gi
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
+  replica:
+    replicaCount: 3
+    persistence:
+      enabled: true
+      size: 8Gi
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
+    # affinity:
+    #   podAntiAffinity:
+    #     requiredDuringSchedulingIgnoredDuringExecution:
+    #       - labelSelector:
+    #           matchExpressions:
+    #             - key: app
+    #               operator: In
+    #               values:
+    #                 - redis-replica
+    # topologyKey: failure-domain.beta.kubernetes.io/zone  # TODO
+
+  sentinel:
+    enabled: true
+    masterSet: "mymaster"
+    persistence:
+      enabled: true
+      size: 8Gi
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
+    sentinelCount: 3
