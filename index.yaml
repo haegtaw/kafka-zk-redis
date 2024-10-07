@@ -1,14 +1,14 @@
----
 apiVersion: v1
-kafka-zk-redis:
+entries:
+  kafka-zk-redis:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-10-07T07:58:17.351206941-04:00"
+    created: "2024-10-07T08:19:40.671368245-04:00"
     description: A Helm chart for Kubernetes
-    digest: 0911b47714639618317badaacbbbb9017f09d3bbec258c982532b38a7e2a3df1
+    digest: 42bbf08dfee233b7101712b447421345ea69cc3435dce07fffb86dbfedad10df
     name: kafka-zk-redis
     type: application
     urls:
-      - https://haegtaw.github.io/kfk-rd/kafka-zk-redis-0.1.0.tgz
+    - https://haegtaw.github.io/kafka-zk-redis/kafka-zk-redis-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-07T07:58:17.350851448-04:00"
+generated: "2024-10-07T08:19:40.664699559-04:00"
