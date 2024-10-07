@@ -118,3 +118,13 @@ redis:
     sentinelCount: 3
     statefulSet:
       enabled: true
+    # affinity:
+    #   podAntiAffinity:
+    #     requiredDuringSchedulingIgnoredDuringExecution:
+    #       - labelSelector:
+    #           matchExpressions:
+    #             - key: app
+    #               operator: In
+    #               values:
+    #                 - redis-replica
+    # topologyKey: failure-domain.beta.kubernetes.io/zone  # TODO

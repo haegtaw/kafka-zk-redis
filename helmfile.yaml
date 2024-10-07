@@ -4,15 +4,15 @@ repositories:
 
 releases:
   - name: kafka
-    chart: kafka-zk-redis/kafka-zk-redis
-    version: 0.1.0
+    chart: bitnami/kafka
+    version: 27.1.0
     namespace: default
     values:
       - values-kafka.yaml
 
   - name: redis
-    chart: kafka-zk-redis/kafka-zk-redis
-    version: 0.1.0
+    chart: bitnami/redis
+    version: 20.1.5
     namespace: default
     values:
       - values-redis.yaml
