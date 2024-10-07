@@ -1,7 +1,7 @@
 ---
 repositories:
   - name: kafka-zk-redis
-    url: https://gitlab.xplanet.tech/devops/charts
+    url: https://github.com/haegtaw/kfk-rd.git
 
 releases:
   - name: kafka-zk-redis
