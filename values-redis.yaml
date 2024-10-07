@@ -1,0 +1,65 @@
+enabled: true
+password: "changeit"
+master:
+  persistence:
+    enabled: true
+    size: 8Gi
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
+  automountServiceAccountToken: true
+replica:
+  replicaCount: 3
+  statefulSet:
+    enabled: true
+  persistence:
+    enabled: true
+    size: 8Gi
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
+  # affinity:
+  #   podAntiAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       - labelSelector:
+  #           matchExpressions:
+  #             - key: app
+  #               operator: In
+  #               values:
+  #                 - redis-replica
+  # topologyKey: failure-domain.beta.kubernetes.io/zone  # TODO
+
+sentinel:
+  enabled: true
+  masterSet: "mymaster"
+  persistence:
+    enabled: true
+    size: 8Gi
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
+  sentinelCount: 3
+  statefulSet:
+    enabled: true
+  # affinity:
+  #   podAntiAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       - labelSelector:
+  #           matchExpressions:
+  #             - key: app
+  #               operator: In
+  #               values:
+  #                 - redis-replica
+  # topologyKey: failure-domain.beta.kubernetes.io/zone  # TODO

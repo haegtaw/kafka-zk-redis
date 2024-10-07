@@ -3,9 +3,16 @@ repositories:
     url: https://haegtaw.github.io/kafka-zk-redis/
 
 releases:
-  - name: kafka-zk-redis
+  - name: kafka
     chart: kafka-zk-redis/kafka-zk-redis
     version: 0.1.0
     namespace: default
     values:
-      - values-v1.yaml
+      - values-kafka.yaml
+
+  - name: redis
+    chart: kafka-zk-redis/kafka-zk-redis
+    version: 0.1.0
+    namespace: default
+    values:
+      - values-redis.yaml
