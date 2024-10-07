@@ -13,6 +13,8 @@ kafka:
         memory: "512Mi"
   broker:
     replicaCount: 3
+    statefulSet:
+      enabled: true
     persistence:
       size: 10Gi
     automountServiceAccountToken: true
@@ -76,6 +78,8 @@ redis:
         memory: "512Mi"
   replica:
     replicaCount: 3
+    statefulSet:
+      enabled: true
     persistence:
       enabled: true
       size: 8Gi
@@ -111,3 +115,5 @@ redis:
         cpu: "200m"
         memory: "512Mi"
     sentinelCount: 3
+    statefulSet:
+      enabled: true
