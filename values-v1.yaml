@@ -76,6 +76,7 @@ redis:
       limits:
         cpu: "200m"
         memory: "512Mi"
+    automountServiceAccountToken: true
   replica:
     replicaCount: 3
     statefulSet:
