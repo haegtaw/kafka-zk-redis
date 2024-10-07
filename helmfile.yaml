@@ -9,4 +9,4 @@ releases:
     chart: ./kafka-zk-redis
     version: "0.1.0"
     values:
-      - ./kafka-zk-redis/values-v1.yaml
+      - ./values-v1.yaml
