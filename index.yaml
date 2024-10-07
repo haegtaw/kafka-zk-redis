@@ -10,6 +10,6 @@ entries:
       name: kafka-zk-redis
       type: application
       urls:
-        - https://gitlab.xplanet.tech/devops/charts/kafka-zk-redis-0.1.0.tgz
+        - https://github.com/haegtaw/kfk-rd/kafka-zk-redis-0.1.0.tgz
       version: 0.1.0
 generated: "2024-10-07T04:21:05.50630817-04:00"
