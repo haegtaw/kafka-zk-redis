@@ -3,8 +3,8 @@ repositories:
     url: https://haegtaw.github.io/kfk-rd/
 
 releases:
-  - name: kafka-zk-redis
-    chart: kafka-zk-redis/kafka-zk-redis
+  - name: kfk-rd
+    chart: kfk-rd/kafka-zk-redis
     version: 0.1.0
     namespace: default
     values:
