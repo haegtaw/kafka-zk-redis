@@ -1,22 +1,76 @@
 enabled: true
+clusterDomain: cluster.local
+heapOpts: -Xmx1024m -Xms1024m
+
+sasl:
+  enabledMechanisms: PLAIN,SCRAM-SHA-256,SCRAM-SHA-512
+  interBrokerMechanism: PLAIN
+  controllerMechanism: PLAIN
 
 controller:
   replicaCount: 0
-  automountServiceAccountToken: true
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "256Mi"
-    limits:
-      cpu: "200m"
-      memory: "512Mi"
+
 broker:
   replicaCount: 3
   statefulSet:
     enabled: true
+  minId: 100
+  zookeeperMigrationMode: false
+  heapOpts: -Xmx1024m -Xms1024m
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    periodSeconds: 10
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    failureThreshold: 6
+    timeoutSeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 15
+    successThreshold: 1
+  resourcesPreset: "none"
+  podSecurityContext:
+    enabled: true
+    fsGroupChangePolicy: Always
+    sysctls: []
+    supplementalGroups: []
+    fsGroup: 1001
+    seccompProfile:
+      type: "RuntimeDefault"
+  containerSecurityContext:
+    enabled: true
+    seLinuxOptions: null
+    runAsUser: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop: ["ALL"]
+  automountServiceAccountToken: false
+  updateStrategy:
+    type: RollingUpdate
   persistence:
+    enabled: true
+    storageClass: ""
     size: 10Gi
-  automountServiceAccountToken: true
+    mountPath: /bitnami/kafka
+  logPersistence:
+    enabled: false
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+    mountPath: /opt/bitnami/kafka/logs
   resources:
     requests:
       cpu: "100m"
@@ -24,11 +78,20 @@ broker:
     limits:
       cpu: "200m"
       memory: "512Mi"
+
 kraft:
   enabled: false
 zookeeper:
   enabled: true
+  replicaCount: 3
+  auth:
+    client:
+      enabled: false
   persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
     size: 10Gi
   resources:
     requests:
@@ -37,6 +100,12 @@ zookeeper:
     limits:
       cpu: "200m"
       memory: "512Mi"
+  externalZookeeper:
+  servers:
+    - "zookeeper-0.kafka.svc.cluster.local:2181"
+    - "zookeeper-1.kafka.svc.cluster.local:2181"
+    - "zookeeper-2.kafka.svc.cluster.local:2181"
+
 listeners:
   client:
     protocol: PLAINTEXT
@@ -46,7 +115,7 @@ listeners:
     protocol: PLAINTEXT
   external:
     protocol: PLAINTEXT
-  configuration:
+
 externalAccess:
   enabled: true
   broker:
@@ -60,3 +129,15 @@ externalAccess:
         - 192.168.49.201
         - 192.168.49.202
         - 192.168.49.203
+
+service:
+  type: ClusterIP
+  ports:
+    client: 9092
+    controller: 9093
+    interbroker: 9094
+    external: 9095
+
+serviceAccount:
+  create: true
+  automountServiceAccountToken: false
