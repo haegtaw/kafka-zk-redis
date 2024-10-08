@@ -1,9 +1,24 @@
 enabled: true
-password: "changeit"
+architecture: replication
+auth:
+  enabled: true
+  sentinel: true
+  password: "changeit"
+
 master:
+  kind: StatefulSet
+  replicaCount: 1
   persistence:
     enabled: true
     size: 8Gi
+    path: /bitnami/redis
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    persistentVolumeClaimRetentionPolicy:
+      enabled: false
+      whenScaled: Retain
+      whenDeleted: Retain
   resources:
     requests:
       cpu: "100m"
@@ -11,14 +26,84 @@ master:
     limits:
       cpu: "200m"
       memory: "512Mi"
-  automountServiceAccountToken: true
+  podSecurityContext:
+    enabled: true
+    fsGroupChangePolicy: Always
+    sysctls: []
+    supplementalGroups: []
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    seLinuxOptions: {}
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop: ["ALL"]
+  service:
+    type: ClusterIP
+    portNames:
+      redis: "tcp-redis"
+    ports:
+      redis: 6379
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+  serviceAccount:
+    create: true
+    name: ""
+    automountServiceAccountToken: false
+  pdb:
+    create: true
+    minAvailable: ""
+    maxUnavailable: ""
+
 replica:
   replicaCount: 3
   statefulSet:
     enabled: true
+  revisionHistoryLimit: 10
+  externalMaster:
+    enabled: false
+    host: ""
+    port: 6379
+  podSecurityContext:
+    enabled: true
+    fsGroupChangePolicy: Always
+    sysctls: []
+    supplementalGroups: []
+    fsGroup: 1001
+  updateStrategy:
+    type: RollingUpdate
+  podAntiAffinityPreset: soft
   persistence:
     enabled: true
     size: 8Gi
+    path: /bitnami/redis-replica
+    accessModes:
+      - ReadWriteOnce
+  persistentVolumeClaimRetentionPolicy:
+    enabled: false
+    whenScaled: Retain
+    whenDeleted: Retain
+  service:
+    type: ClusterIP
+    ports:
+      redis: 6379
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    sessionAffinity: None
+  serviceAccount:
+    create: true
+    name: ""
+    automountServiceAccountToken: false
+  pdb:
+    create: true
+    minAvailable: ""
+    maxUnavailable: ""
   resources:
     requests:
       cpu: "100m"
@@ -40,9 +125,57 @@ replica:
 sentinel:
   enabled: true
   masterSet: "mymaster"
+  quorum: 2
+  automateClusterRecovery: false
+  redisShutdownWaitFailover: true
+  downAfterMilliseconds: 60000
+  failoverTimeout: 180000
+  parallelSyncs: 1
+  externalMaster:
+    enabled: false
+    host: ""
+    port: 6379
+  containerPorts:
+    sentinel: 26379
   persistence:
     enabled: true
-    size: 8Gi
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 100Mi
+  persistentVolumeClaimRetentionPolicy:
+    enabled: false
+    whenScaled: Retain
+    whenDeleted: Retain
+  resourcesPreset: "nano"
+  containerSecurityContext:
+    enabled: true
+    seLinuxOptions: {}
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop: ["ALL"]
+  service:
+    type: ClusterIP
+    ports:
+      redis: 6379
+      sentinel: 26379
+    nodePorts:
+      redis: ""
+      sentinel: ""
+    externalTrafficPolicy: Cluster
+    createMaster: false
+  masterService:
+    enabled: false
+    type: ClusterIP
+    ports:
+      redis: 6379
+    sessionAffinity: None
   resources:
     requests:
       cpu: "100m"
@@ -63,3 +196,21 @@ sentinel:
   #               values:
   #                 - redis-replica
   # topologyKey: failure-domain.beta.kubernetes.io/zone  # TODO
+
+networkPolicy:
+  enabled: true
+  allowExternal: true
+  allowExternalEgress: true
+
+rbac:
+  create: false
+
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+# useExternalDNS:
+#   enabled: false
+#   suffix: ""
+#   annotationKey: external-dns.alpha.kubernetes.io/
+#   additionalAnnotations: {}
