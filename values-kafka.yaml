@@ -105,10 +105,10 @@ listeners:
     port: 9092
     host: 0.0.0.0
 
-advertisedListeners:
-  - name: PLAINTEXT
-    port: 9092
-    host: 0.0.0.0
+# advertisedListeners:
+#   - name: PLAINTEXT
+#     port: 9092
+#     host: 0.0.0.0
 
 # externalAccess:
 #   enabled: true
