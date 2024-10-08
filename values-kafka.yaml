@@ -83,19 +83,18 @@ zookeeper:
   #   - "zookeeper-2.kafka.svc.cluster.local:2181"
 
 listeners:
-  - name: INTERNAL
-    port: 9092
-    type: INTERNAL
-    protocol: PLAINTEXT
-    tls: false
-  - name: EXTERNAL
-    port: 9094
-    type: EXTERNAL
-    protocol: PLAINTEXT
-    tls: false
+  overrideListeners: # Переопределение слушателей
+    - name: PLAINTEXT
+      port: 9092
+      host: 0.0.0.0
 
-# externalAccess:
-#   enabled: true
+advertisedListeners:
+  - name: PLAINTEXT
+    port: 9092
+    host: 10.101.231.180
+
+externalAccess:
+  enabled: true
 #   broker:
 #     service:
 #       type: NodePort
@@ -114,7 +113,7 @@ service:
     client: 9092
     # controller: 9093
     interbroker: 9094
-    # external: 9095
+    external: 9095
 
 serviceAccount:
   create: true
