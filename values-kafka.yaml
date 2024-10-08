@@ -4,6 +4,13 @@ heapOpts: -Xmx1024m -Xms1024m
 
 controller:
   replicaCount: 0
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
 
 broker:
   replicaCount: 3
@@ -12,24 +19,7 @@ broker:
   minId: 100
   zookeeperMigrationMode: false
   heapOpts: -Xmx1024m -Xms1024m
-  podSecurityContext:
-    enabled: true
-    fsGroupChangePolicy: Always
-    sysctls: []
-    supplementalGroups: []
-    fsGroup: 1001
-    seccompProfile:
-      type: "RuntimeDefault"
-  containerSecurityContext:
-    enabled: true
-    seLinuxOptions: null
-    runAsUser: 1001
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: true
-    capabilities:
-      drop: ["ALL"]
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true
   updateStrategy:
     type: RollingUpdate
   persistence:
@@ -51,9 +41,6 @@ broker:
     limits:
       cpu: "200m"
       memory: "512Mi"
-  configurationOverrides:
-  offsets.topic.replication.factor: 3
-  listener.security.protocol.map: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
 
 kraft:
   enabled: false
@@ -96,53 +83,15 @@ externalAccess:
         - 192.168.49.202
         - 192.168.49.203
 
-listeners:
-  client:
-    containerPort: 9092
-    protocol: SASL_PLAINTEXT
-    name: CLIENT
-    sslClientAuth: ""
-  controller:
-    name: CONTROLLER
-    containerPort: 9093
-    protocol: SASL_PLAINTEXT
-    sslClientAuth: ""
-  interbroker:
-    containerPort: 9094
-    protocol: SASL_PLAINTEXT
-    name: INTERNAL
-    sslClientAuth: ""
-  external:
-    containerPort: 9095
-    protocol: SASL_PLAINTEXT
-    name: EXTERNAL
-    sslClientAuth: ""
-
-advertisedListeners:
-  - name: CLIENT
-    host: kafka.default.svc.cluster.local
-    port: 9092
-  - name: CONTROLLER
-    host: kafka.default.svc.cluster.local
-    port: 9093
-  - name: INTERNAL
-    host: kafka.default.svc.cluster.local
-    port: 9094
-  - name: EXTERNAL
-    host: kafka.default.svc.cluster.local
-    port: 9095
-
-service:
-  type: ClusterIP
-  ports:
-    client: 9092
-    controller: 9093
-    interbroker: 9094
-    external: 9095
-
-serviceAccount:
-  create: true
-  automountServiceAccountToken: false
+  listeners:
+    client:
+      protocol: PLAINTEXT
+    controller:
+      protocol: PLAINTEXT
+    interbroker:
+      protocol: PLAINTEXT
+    external:
+      protocol: PLAINTEXT
 
 networkPolicy:
   enabled: true
