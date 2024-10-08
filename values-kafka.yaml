@@ -2,11 +2,6 @@ enabled: true
 clusterDomain: cluster.local
 heapOpts: -Xmx1024m -Xms1024m
 
-sasl:
-  enabledMechanisms: PLAIN,SCRAM-SHA-256,SCRAM-SHA-512
-  interBrokerMechanism: PLAIN
-  controllerMechanism: PLAIN
-
 controller:
   replicaCount: 0
 
@@ -109,8 +104,6 @@ zookeeper:
 listeners:
   client:
     protocol: PLAINTEXT
-  controller:
-    protocol: PLAINTEXT
   interbroker:
     protocol: PLAINTEXT
   external:
@@ -134,7 +127,7 @@ service:
   type: ClusterIP
   ports:
     client: 9092
-    controller: 9093
+    # controller: 9093
     interbroker: 9094
     external: 9095
 
