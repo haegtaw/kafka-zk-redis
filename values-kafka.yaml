@@ -101,9 +101,10 @@ zookeeper:
   #   - "zookeeper-2.kafka.svc.cluster.local:2181"
 
 listeners:
-  - name: PLAINTEXT
-    port: 9092
-    host: 0.0.0.0
+  overrideListeners:
+    - name: PLAINTEXT
+      port: 9092
+      host: 0.0.0.0
 
 # advertisedListeners:
 #   - name: PLAINTEXT
