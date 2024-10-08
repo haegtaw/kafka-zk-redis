@@ -100,11 +100,11 @@ zookeeper:
     limits:
       cpu: "200m"
       memory: "512Mi"
-  externalZookeeper:
-  servers:
-    - "zookeeper-0.kafka.svc.cluster.local:2181"
-    - "zookeeper-1.kafka.svc.cluster.local:2181"
-    - "zookeeper-2.kafka.svc.cluster.local:2181"
+  # externalZookeeper:
+  # servers:
+  #   - "zookeeper-0.kafka.svc.cluster.local:2181"
+  #   - "zookeeper-1.kafka.svc.cluster.local:2181"
+  #   - "zookeeper-2.kafka.svc.cluster.local:2181"
 
 listeners:
   client:
@@ -141,3 +141,7 @@ service:
 serviceAccount:
   create: true
   automountServiceAccountToken: false
+
+networkPolicy:
+  enabled: true
+  allowExternal: true
