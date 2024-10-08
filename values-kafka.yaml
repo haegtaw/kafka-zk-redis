@@ -83,10 +83,9 @@ zookeeper:
   #   - "zookeeper-2.kafka.svc.cluster.local:2181"
 
 listeners:
-  overrideListeners: # Переопределение слушателей
-    - name: PLAINTEXT
-      port: 9092
-      host: 0.0.0.0
+  - name: PLAINTEXT
+    port: 9092
+    host: 0.0.0.0
 
 advertisedListeners:
   - name: PLAINTEXT
