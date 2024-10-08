@@ -109,19 +109,19 @@ listeners:
   external:
     protocol: PLAINTEXT
 
-externalAccess:
-  enabled: true
-  broker:
-    service:
-      type: NodePort
-      nodePorts:
-        - 30066
-        - 30067
-        - 30068
-      externalIPs:
-        - 192.168.49.201
-        - 192.168.49.202
-        - 192.168.49.203
+# externalAccess:
+#   enabled: true
+#   broker:
+#     service:
+#       type: NodePort
+#       nodePorts:
+#         - 30066
+#         - 30067
+#         - 30068
+#       externalIPs:
+#         - 192.168.49.201
+#         - 192.168.49.202
+#         - 192.168.49.203
 
 service:
   type: ClusterIP
