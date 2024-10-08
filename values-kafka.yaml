@@ -120,16 +120,16 @@ listeners:
 
 advertisedListeners:
   - name: CLIENT
-    host: 192.168.49.201
+    host: kafka.default.svc.cluster.local
     port: 9092
   - name: CONTROLLER
-    host: 192.168.49.202
+    host: kafka.default.svc.cluster.local
     port: 9093
   - name: INTERNAL
-    host: 192.168.49.203
+    host: kafka.default.svc.cluster.local
     port: 9094
   - name: EXTERNAL
-    host: 192.168.49.203
+    host: kafka.default.svc.cluster.local
     port: 9095
 
 service:
